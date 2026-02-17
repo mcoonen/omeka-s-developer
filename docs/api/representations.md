@@ -185,9 +185,33 @@ their property. The method `displayValues` provides this functionality.
 currently one option:
 
 - `'viewName'`: the name of a different partial to use than the default
+- `'siteId'`: (since 4.0.0) ID of a site to display for; this will exclude any resource-type values
+  that link to resources that aren't in the site
+- `'properties'`: (since 4.2.0) an array of property terms to display; if passed, these are the
+- only properties that will be displayed
+- `'excludeProperties'`: (since 4.2.0) an array of property terms to exclude from display
 
-The output returned by `displayValues` is themable: the partial is
+The output returned by `displayValues` is themable: the default partial is
 `common/resource-values.phtml`.
+
+One use case for  `properties` and `excludeProperties` is to create different places for
+displaying different subsets of the values:
+
+```php
+<div class="main-properties">
+<?php
+// show only title and description in one container
+echo $item->displayValues(['properties' => ['dcterms:title', 'dcterms:description']]);
+?>
+</div>
+
+<div class="other-properties">
+<?php
+// pass the same terms to excludeProperties to show everything else in the other container
+echo $item->displayValues(['excludeProperties' => ['dcterms:title', 'dcterms:description']]);
+?>
+</div>
+```
 
 ### Other Resource Data
 
